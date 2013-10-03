@@ -1,3 +1,20 @@
-.titleHeader {
-	text-align: center;
+
+.listing {
+	height:1.1em;
+	background-color: gainsboro;
+	border-radius: 10px;
+	margin: 10px 0px;
+	-webkit-transition: 0.3s;
 }
+
+.listing-expand {
+	height:7em;
+	-webkit-transition: 0.3s;
+}
+
+.listing:hover {
+	box-shadow: 0px 0px 5px #333;
+	-webkit-transition: 0.3s;
+	background-color: peachpuff;
+}
+

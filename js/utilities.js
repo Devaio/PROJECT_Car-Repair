@@ -56,7 +56,7 @@ var pluck = function(arr, propertyName) {
 var printObject = function(o, valueFormatter) {
 	for(var key in o){
 		var formattedValue = valueFormatter(o[key]);
-		console.log(key + " = " + formattedValue;
+		console.log(key + " = " + formattedValue);
 	}
 };
 

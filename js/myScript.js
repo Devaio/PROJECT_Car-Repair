@@ -65,10 +65,9 @@ $(document).ready(function() {
 
 
 
-
-
-
-
+$('#listingArea').on('click', '.listing', function (){
+	$(this).toggleClass('listing-expand');
+});
 
 
 
