@@ -12,12 +12,12 @@ $(document).ready(function() {
 	  // This example is a proof of concept, for how to use the Yelp v2 API with javascript.
 	  // You wouldn't actually want to expose your access token secret like this in a real application.
 	  accessTokenSecret: "7wxSv_KWFWe2uy1minQfgcwVYjE",
-	  serviceProvider: { 
-	    signatureMethod: "HMAC-SHA1"
-	  }
+	  serviceProvider: {
+	  	signatureMethod: "HMAC-SHA1"
+	}
 	};
 
-	var category_filter = 'automotive';
+	var category_filter = 'auto';
 	var near = 'Boulder';
 
 	var accessor = {
@@ -44,7 +44,7 @@ $(document).ready(function() {
 	OAuth.SignatureMethod.sign(message, accessor);
 
 	var parameterMap = OAuth.getParameterMap(message.parameters);
-	parameterMap.oauth_signature = OAuth.percentEncode(parameterMap.oauth_signature)
+	parameterMap.oauth_signature = OAuth.percentEncode(parameterMap.oauth_signature);
 	console.log(parameterMap);
 
 	$.ajax({
@@ -55,7 +55,8 @@ $(document).ready(function() {
 	  'jsonpCallback': 'cb',
 	  'success': function(data, textStats, XMLHttpRequest) {
 	    console.log(data);
-	    var output = prettyPrint(data);
+	    var output = data; //prettyPrint(data)
+	    console.log(output);
 	    $("#listingArea").append(output);
 	  }
 	});
@@ -63,20 +64,11 @@ $(document).ready(function() {
 //
 // End Yelp Search API
 
-
+//needs an iterator to pull data from array and object and display
 
 $('#listingArea').on('click', '.listing', function (){
 	$(this).toggleClass('listing-expand');
 });
-
-
-
-
-
-
-
-
-
 
 
 });// End of Doc Ready
