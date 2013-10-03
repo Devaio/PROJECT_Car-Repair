@@ -18,7 +18,7 @@ $(document).ready(function() {
 	};
 
 	var category_filter = 'auto';
-	var near = 'Boulder';
+	var near = "Boulder";
 
 	var accessor = {
 	  consumerSecret: auth.consumerSecret,
@@ -47,28 +47,74 @@ $(document).ready(function() {
 	parameterMap.oauth_signature = OAuth.percentEncode(parameterMap.oauth_signature);
 	console.log(parameterMap);
 
-	$.ajax({
-	  'url': message.action,
-	  'data': parameterMap,
-	  'cache': true,
-	  'dataType': 'jsonp',
-	  'jsonpCallback': 'cb',
-	  'success': function(data, textStats, XMLHttpRequest) {
-	    console.log(data);
-	    var output = data; //prettyPrint(data)
-	    console.log(output);
-	    $("#listingArea").append(output);
-	  }
-	});
-//
+
+
+
+	
+	  var request = $.ajax({
+					  'url': message.action,
+					  'data': parameterMap,
+					  'cache': true,
+					  'dataType': 'jsonp',
+					  'jsonpCallback': 'cb',
+					  'success': function(data, textStats, XMLHttpRequest) {
+					    console.log(data.businesses);
+
+
+					   _.each(data.businesses, function(db){
+					   	db
+					   }) 		
+
+
+
+
+
+
+
+
+
+
+
+
+					  }
+					});
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
 //
 // End Yelp Search API
 
 //needs an iterator to pull data from array and object and display
 
+
+//Main Page
 $('#listingArea').on('click', '.listing', function (){
 	$(this).toggleClass('listing-expand');
 });
+
+//http://api.yelp.com/v2/search?term=auto&location=location
+
+
+
+
+
+
+
+
+
+
 
 
 });// End of Doc Ready
