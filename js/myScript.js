@@ -2,10 +2,11 @@ $(document).ready(function() {
 //
 //
 // Begin Yelp Search API
+var businessSearchResult = []
+var yelpSearch = function(zip){
 	var auth = { 
 	  //
-	  // Update with your auth tokens.
-	  //TTZeAv6k2_Au9Nzf1yns2A
+	  // Update with your auth tokens
 	  consumerKey: "m1TvMHSF7PoLTIwV85NxbA", 
 	  consumerSecret: "6u8JIKkDxYrVWVXmBsLSYPOnb5s",
 	  accessToken: "F7C4xJ_7vIVuRCNfUPDje18uP5pv1j6d",
@@ -18,7 +19,7 @@ $(document).ready(function() {
 	};
 
 	var category_filter = 'auto';
-	var near = "Boulder";
+	var location = zip;
 
 	var accessor = {
 	  consumerSecret: auth.consumerSecret,
@@ -27,7 +28,7 @@ $(document).ready(function() {
 
 	parameters = [];
 	parameters.push(['category_filter', category_filter]);
-	parameters.push(['location', near]);
+	parameters.push(['location', location]);
 	parameters.push(['callback', 'cb']);
 	parameters.push(['oauth_consumer_key', auth.consumerKey]);
 	parameters.push(['oauth_consumer_secret', auth.consumerSecret]);
@@ -47,64 +48,72 @@ $(document).ready(function() {
 	parameterMap.oauth_signature = OAuth.percentEncode(parameterMap.oauth_signature);
 	console.log(parameterMap);
 
-
-
-
-	
-	  var request = $.ajax({
-					  'url': message.action,
-					  'data': parameterMap,
-					  'cache': true,
-					  'dataType': 'jsonp',
-					  'jsonpCallback': 'cb',
-					  'success': function(data, textStats, XMLHttpRequest) {
-					    console.log(data.businesses);
-
-
-					   _.each(data.businesses, function(db){
-					   	db
-					   }) 		
-
-
-
-
-
-
-
-
-
-
-
-
-					  }
-					});
-
-	
-
-
-
-
-
-
-
-
-
-
-
-
-
+  var request = $.ajax({
+	  'url': message.action,
+	  'data': parameterMap,
+	  'cache': true,
+	  'dataType': 'jsonp',
+	  'jsonpCallback': 'cb',
+	  'success': function(data, textStats, XMLHttpRequest) {
+	    console.log(data.businesses);
+	    businessSearchResult = data.businesses
+	   _.each(data.businesses, function(db){
+	   	db
+	   }) 		
+	  }
+	});
+};
 //
 // End Yelp Search API
 
 //needs an iterator to pull data from array and object and display
 
+//Render Results
+var renderResults = function(){
+	$('#listingArea').text('')
+	for(var i=0; i<businessSearchResult.length; i++){
+	var resultName = $('<div class="listing large-8 large-centered columns">'+ businessSearchResult[i].name +'</div>')
+	var resultPhone = $('<p>Phone: '+businessSearchResult[i].display_phone+'</p>').css('display', 'none')
+	var resultRank = $('<p> Rating: '+businessSearchResult[i].rating+'/5</p>').css('display', 'none')
+
+
+	resultName.append(resultPhone)
+	resultName.append(resultRank)
+
+
+
+	$('#listingArea').append(resultName)
+
+	}
+}
+
+
+
+
 
 //Main Page
 $('#listingArea').on('click', '.listing', function (){
 	$(this).toggleClass('listing-expand');
+	$(this).hasClass('listing-expand') ?
+		$(this).children().css('display', 'block') :
+		$(this).children().css('display', 'none');
 });
 
-//http://api.yelp.com/v2/search?term=auto&location=location
+
+
+$('.searchButton').on('click', function() {
+	var zipToSearch = $('.zipSearch').val();
+	yelpSearch(zipToSearch);
+	$('.zipSearch').val('');
+	setTimeout(renderResults, 800);
+});
+$('.zipForm').on('submit', function() {
+	var zipToSearch = $('.zipSearch').val();
+	yelpSearch(zipToSearch);
+	$('.zipSearch').val('');
+	setTimeout(renderResults, 800);
+});
+
 
 
 
