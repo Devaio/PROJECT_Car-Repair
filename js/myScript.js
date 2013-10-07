@@ -71,10 +71,16 @@ var yelpSearch = function(zip){
 //Render Results
 var renderResults = function(){
 	$('#listingArea').text('')
+
+	var sortList = (_.sortBy(businessSearchResult, function(arrayElement){
+		return arrayElement.rating
+	})).reverse()
+	console.log(sortList)
+
 	for(var i=0; i<businessSearchResult.length; i++){
-	var resultName = $('<div class="listing large-8 large-centered columns">'+ businessSearchResult[i].name +'</div>')
-	var resultPhone = $('<p>Phone: '+businessSearchResult[i].display_phone+'</p>').css('display', 'none')
-	var resultRank = $('<p> Rating: '+businessSearchResult[i].rating+'/5</p>').css('display', 'none')
+	var resultName = $('<div class="listing large-8 large-centered columns">'+ sortList[i].name +'</div>')
+	var resultPhone = $('<p>Phone: '+sortList[i].display_phone+'</p>').css('display', 'none')
+	var resultRank = $('<p> Rating: '+sortList[i].rating+'/5</p>').css('display', 'none')
 
 
 	resultName.append(resultPhone)
@@ -105,13 +111,13 @@ $('.searchButton').on('click', function() {
 	var zipToSearch = $('.zipSearch').val();
 	yelpSearch(zipToSearch);
 	$('.zipSearch').val('');
-	setTimeout(renderResults, 800);
+	setTimeout(renderResults, 1000);
 });
 $('.zipForm').on('submit', function() {
 	var zipToSearch = $('.zipSearch').val();
 	yelpSearch(zipToSearch);
 	$('.zipSearch').val('');
-	setTimeout(renderResults, 800);
+	setTimeout(renderResults, 1000);
 });
 
 
